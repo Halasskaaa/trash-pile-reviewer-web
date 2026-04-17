@@ -7,6 +7,9 @@ pub struct TemplateApp {
 
     #[serde(skip)] // This how you opt-out of serialization of a field
     value: f32,
+
+    #[serde(skip)]
+    ratings: Vec<super::RatingEntry>,
 }
 
 impl Default for TemplateApp {
@@ -15,6 +18,7 @@ impl Default for TemplateApp {
             // Example stuff:
             label: "Hello World!".to_owned(),
             value: 2.7,
+            ratings: vec![],
         }
     }
 }
@@ -84,6 +88,14 @@ impl eframe::App for TemplateApp {
             ui.add(egui::github_link_file!(
                 "https://github.com/emilk/eframe_template/blob/main/",
                 "Source code."
+            ));
+
+            ui.add(super::ui::manga_display::MangaView::new(
+                &crate::MangaData {
+                    title: "test".to_owned(),
+                    description: "test".to_owned(),
+                    image_url: "test".to_owned(),
+                },
             ));
 
             ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
